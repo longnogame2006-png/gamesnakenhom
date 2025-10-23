@@ -1,0 +1,34 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "build",
+            "type": "shell",
+            "command": "g++",
+            "args": [
+                "-o",
+                "game.exe",
+                "src/main.cpp",
+                "src/Game.cpp",
+                "src/Snake.cpp",
+                "src/Food.cpp",
+                "src/Config.cpp",
+                "src/Utils.cpp",
+                "-Iinclude",
+                "-IC:/raylib/raylib-5.5_win64_mingw-w64/include",
+                "-LC:/raylib/raylib-5.5_win64_mingw-w64/lib",
+                "-lraylib",
+                "-lwinmm",
+                "-lgdi32",
+                "-lopengl32"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": [
+                "$gcc"
+            ]
+        }
+    ]
+}
