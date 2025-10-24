@@ -6,7 +6,7 @@
 Config Config::LoadFromFile(const std::string &path) {
     Config cfg;
     std::ifstream in(path);
-    if (!in) return cfg; // missing -> defaults
+    if (!in) return cfg;
     std::string line;
     while (std::getline(in, line)) {
         if (line.empty() || line[0]=='#') continue;

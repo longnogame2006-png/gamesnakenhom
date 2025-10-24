@@ -10,14 +10,12 @@
 #include <algorithm>
 #include <sstream>
 
-// ---------------- Exception cho lỗi file I/O ----------------
 class FileIOException : public std::runtime_error {
 public:
     explicit FileIOException(const std::string &msg)
         : std::runtime_error(msg) {}
 };
 
-// ---------------- Constructor ----------------
 Game::Game(const Config &cfg)
     : config(cfg), food(cfg.cellCount)
 {
@@ -32,7 +30,6 @@ Game::Game(const Config &cfg)
 
     SetRandomSeed((unsigned int)GetTime());
 
-    // Audio setup
     InitAudioDevice();
     if (!IsAudioDeviceReady())
         std::cerr << "⚠️ Warning: Audio device init failed!\n";
@@ -70,7 +67,6 @@ Game::Game(const Config &cfg)
     std::cout << "Game Constructor: COMPLETED\n";
 }
 
-// ---------------- Destructor ----------------
 Game::~Game()
 {
     if (eatSoundLoaded) UnloadSound(eatSound);
@@ -80,7 +76,6 @@ Game::~Game()
     std::cout << "Game Destructor: DONE\n";
 }
 
-// ---------------- Run ----------------
 void Game::Run()
 {
     static std::vector<std::tuple<int, int, Color>> stars;
@@ -133,7 +128,6 @@ void Game::Run()
     }
 }
 
-// ---------------- Input ----------------
 void Game::HandleInput()
 {
     if (state != GameState::PLAYING) return;
@@ -168,7 +162,6 @@ void Game::HandleInput()
         state = GameState::MENU;
 }
 
-// ---------------- Update ----------------
 void Game::Update()
 {
     if (!running || paused) return;
@@ -197,7 +190,6 @@ void Game::Update()
         GameOver();
 }
 
-// ---------------- Draw Game ----------------
 void Game::DrawGame() const
 {
     DrawRectangleLinesEx(
@@ -219,7 +211,6 @@ void Game::DrawGame() const
                  GetScreenHeight()/2 - 30, 60, YELLOW);
 }
 
-// ---------------- Draw Menu ----------------
 void Game::DrawMenu()
 {
     const char* title = "SNAKE";
@@ -257,7 +248,6 @@ void Game::DrawMenu()
     }
 }
 
-// ---------------- Draw Enter Name ----------------
 void Game::DrawEnterName()
 {
     const char* title = "ENTER YOUR NAME";
@@ -294,7 +284,6 @@ void Game::DrawEnterName()
     }
 }
 
-// ---------------- Draw High Scores ----------------
 void Game::DrawHighScores()
 {
     DrawText("HIGH SCORES", GetScreenWidth()/2 - MeasureText("HIGH SCORES", 50)/2, 80, 50, {0,120,255,255});
@@ -322,18 +311,15 @@ void Game::DrawHighScores()
     }
 }
 
-// ---------------- Event Trigger ----------------
 bool Game::EventTriggered()
 {
     return ::EventTriggered(config.tickInterval, lastUpdateTime);
 }
 
-// ---------------- Game Over (ĐÃ SỬA) ----------------
 void Game::GameOver()
 {
     if (wallSoundLoaded) PlaySound(wallSound);
 
-    // Nếu đã nhập tên thì lưu điểm
     if (!playerName.empty()) {
         bool found = false;
         for (auto &e : highScores) {
@@ -347,17 +333,13 @@ void Game::GameOver()
         SaveHighScores();
     }
 
-    // Reset game
     snake.Reset();
     score = 0;
     running = false;
     paused = false;
-
-    // Quay lại menu chính
     state = GameState::MENU;
 }
 
-// ---------------- High Score I/O ----------------
 void Game::LoadHighScores()
 {
     highScores.clear();

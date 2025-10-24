@@ -32,29 +32,24 @@ private:
     bool paused = false;
     double lastUpdateTime = 0.0;
 
-    // ✅ High scores (vector để có thể sort & push_back)
     std::vector<std::pair<std::string, int>> highScores;
 
-    // Audio
     Sound eatSound;
     Sound wallSound;
     bool eatSoundLoaded;
     bool wallSoundLoaded;
 
-    // Trạng thái game
     GameState state = GameState::MENU;
 
-    // Nhập tên người chơi
     std::string playerName;
     static constexpr size_t MAX_NAME_LENGTH = 12;
 
-    // Các hàm xử lý
     void HandleInput();
     void Update();
-    void DrawGame() const;       // Vẽ khi đang chơi
-    void DrawMenu();             // Menu chính
-    void DrawHighScores();       // Bảng xếp hạng
-    void DrawEnterName();        // Màn hình nhập tên
+    void DrawGame() const;
+    void DrawMenu();
+    void DrawHighScores();
+    void DrawEnterName();
     bool EventTriggered();
     void CheckCollisions();
     void GameOver();
